@@ -1,0 +1,29 @@
+﻿@page "/"
+@inject NavigationManager navman
+
+<div class="row nav">
+    <div class="col-10 title">
+        <h1>Kalter Krieg</h1>
+    </div>
+    <div class="col-2 quiz-btn">
+        <button class="btn btn-info" onclick="@toQuiz">Quiz</button>
+    </div>
+</div>
+
+<div class="timeline">
+    <div class="box left"><div class="content">Datum und Titel</div></div>
+    <div class="box right"><div class="content">Datum und Titel</div></div>
+    <div class="box left"><div class="content">Datum und Titel</div></div>
+    <div class="box right"><div class="content">Datum und Titel</div></div>
+    <div class="box left"><div class="content">Datum und Titel</div></div>
+    <div class="box right"><div class="content">Datum und Titel</div></div>
+    <div class="box left"><div class="content">Datum und Titel</div></div>
+</div>
+
+@code {
+
+    void toQuiz()
+    {
+        navman.NavigateTo("quiz");
+    }
+}
