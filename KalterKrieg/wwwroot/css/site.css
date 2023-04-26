@@ -7,7 +7,7 @@ html, body {
 }
 
 .nav {
-    margin-bottom: 45px;
+    margin-bottom: 75px;
 }
 
 .title {
@@ -17,6 +17,11 @@ html, body {
 .quiz-btn {
     padding: 10px 50px;
     text-align: right;
+}
+
+.quiz-div {
+    height: 500px;
+    width: 100%;
 }
 
 .valid.modified:not([type=checkbox]) {
@@ -57,7 +62,6 @@ html, body {
     margin: 0 auto;
 }
 
-/* The actual timeline (the vertical ruler) */
     .timeline::after {
         content: '';
         position: absolute;
@@ -118,14 +122,13 @@ html, body {
 .info-wrapper {
     position: relative;
     display: inline-block;
-    border-bottom: 1px dotted black;
     cursor: help;
 }
 
 span {
     visibility: hidden;
     position: absolute;
-    width: 120px;
+    width: 400px;
     bottom: 100%;
     left: 50%;
     margin-left: -60px;

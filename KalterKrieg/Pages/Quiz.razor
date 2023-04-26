@@ -1,8 +1,75 @@
 ﻿@page "/quiz"
+@inject NavigationManager navman
+@inject FirebaseService firebase
+@using KalterKrieg.Data
 
 <h1>Quiz</h1>
+<h5>Teste dein Wissen zum Kalten Krieg</h5>
 
+
+@if (quizCompleted)
+{
+        <div class="justify-content-center align-items-center d-flex quiz-div">
+            <p>Du hast @score von @totalQuestions Fragen richtig beantwortet.</p>
+        </div>
+}
+else if (quizStarted)
+{
+    <div class="quiz-div my-5 mx-auto">
+        <h2 class="m-3">@currentQuestion.question</h2>
+            @foreach (var answer in currentQuestion.answers)
+            {
+                <div class="row mx-5 my-2">
+                    <button class="btn btn-primary" @onclick="() => SubmitAnswer(answer)">@answer</button>
+                </div>
+            }
+    </div>
+}
+else
+{
+    <div class="justify-content-center align-items-center d-flex quiz-div">
+        <button class="btn btn-primary" @onclick="StartQuiz">Start Quiz</button>
+    </div>
+}
 
 @code {
+    private List<Frage> questions;
+    private Frage currentQuestion;
+    private int currentQuestionIndex = 0;
+    private int score = 0;
+    private int totalQuestions;
+    private bool quizStarted = false;
+    private bool quizCompleted = false;
 
+    protected override async Task OnInitializedAsync()
+    {
+        questions = await firebase.getQuiz();
+        totalQuestions = questions.Count;
+    }
+
+    private void StartQuiz()
+    {
+        quizStarted = true;
+        currentQuestion = questions[currentQuestionIndex];
+    }
+
+    private void SubmitAnswer(string answer)
+    {
+        if (answer == currentQuestion.answers[currentQuestion.correctAnswer])
+        {
+            score++;
+        }
+
+        if (currentQuestionIndex == totalQuestions - 1)
+        {
+            quizCompleted = true;
+        }
+        else
+        {
+            currentQuestionIndex++;
+            currentQuestion = questions[currentQuestionIndex];
+        }
+    }
 }
+
+

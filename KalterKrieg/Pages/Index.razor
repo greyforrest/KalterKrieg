@@ -1,29 +1,51 @@
 ﻿@page "/"
 @inject NavigationManager navman
+@inject FirebaseService firebase
+@using KalterKrieg.Data
 
 <div class="row nav">
     <div class="col-10 title">
         <h1>Kalter Krieg</h1>
+        <p>Hovere über die Ereignisse, um etwas mehr darüber zu erfahren.</p>
     </div>
     <div class="col-2 quiz-btn">
-        <button class="btn btn-info" onclick="@toQuiz">Quiz</button>
+        <button class="btn btn-primary" onclick="@toQuiz">Quiz</button>
     </div>
 </div>
 
-<div class="timeline">
-    <div class="box left"><div class="content"><Info Text="Das ist die Erläuterung des Ereignisses">Ereignisse an Datum</Info></div></div>
-    <div class="box right"><div class="content">Datum und Titel</div></div>
-    <div class="box left"><div class="content">Datum und Titel</div></div>
-    <div class="box right"><div class="content">Datum und Titel</div></div>
-    <div class="box left"><div class="content">Datum und Titel</div></div>
-    <div class="box right"><div class="content">Datum und Titel</div></div>
-    <div class="box left"><div class="content">Datum und Titel</div></div>
+
+<div class="timeline mb-5">
+    @foreach(Ereignis ereignis in all)
+    {
+        <div class="box @getSide()"><div class="content"><Info Text="@ereignis.shortSummary">@ereignis.name, @ereignis.dateStart bis @ereignis.dateEnd</Info></div></div>
+
+    }
 </div>
 
 @code {
+    List<Ereignis> all = new List<Ereignis>();
+    string side = "right";
+
+    protected async override void OnInitialized()
+    {
+        all = await firebase.getAllEreignisseSorted();
+        StateHasChanged();
+    }
 
     void toQuiz()
     {
-        navman.NavigateTo("quiz");
+        navman.NavigateTo("/quiz");
+    }
+
+    string getSide()
+    {
+        if(side == "right")
+        {
+            side = "left";
+        } else
+        {
+            side = "right";
+        }
+        return side;
     }
 }
